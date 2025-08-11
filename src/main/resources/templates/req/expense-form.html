@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Expense</title>
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+</head>
+<body>
+    <h1>Create New Expense</h1>
+    <hr/>
+    <form th:action="@{/saveOrUpdateExpense}" th:object="${expense}" method="post" id="expenseform">
+        <input type="text" placeholder="Enter expense name" th:field="*{name}"/>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <br/><br/>
+        <input type="text"
+               placeholder="Enter expense amount"
+               th:field="*{amount}" id="amount"
+                oninput="validateNumber(this);"/>
+        <span th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+        <br/><br/>
+        <input type="text" th:field="*{dateString}" placeholder="dd/mm/yyyy" id="createdAt"/>
+        <span th:if="${#fields.hasErrors('dateString')}" th:errors="*{dateString}"></span>
+        <br/><br/>
+        <textarea rows="5" placeholder="Enter description" th:field="*{description}"></textarea>
+        <br/><br/>
+        <button type="submit">Submit</button>
+
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{expenseId}"/>
+    </form>
+    <div>
+        <a th:href="@{/expenses}">Back to Expenses</a>
+    </div>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/jquery-ui.js}"></script>
+    <script th:src="@{/js/jquery-validator.js}"></script>
+    <script th:src="@{/js/expense-form.js}"></script>
+</body>
+</html>

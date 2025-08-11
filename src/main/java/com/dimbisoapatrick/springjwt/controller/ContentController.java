@@ -10,17 +10,17 @@ public class ContentController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "req/login";
     }
 
     @GetMapping("/signup")
     public String signup() {
-        return "signup";
+        return "req/register";
     }
 
     @GetMapping("/index")
     public String home() {
-        return "index";
+        return "req/expenses-list";
     }
 
 }

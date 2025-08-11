@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.dimbisoapatrick</groupId>
 	<artifactId>springjwt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1.1</version>
 	<name>springjwt</name>
-	<description>OpenAPI and Security project for Spring Boot</description>
+	<description>Spring Boot application for Blog</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -111,6 +111,11 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -123,6 +128,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>							
+							<version>1.18.38</version>
 							<scope>provided</scope>
 						</path>
 					</annotationProcessorPaths>

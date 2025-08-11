@@ -64,11 +64,4 @@ public class User {
         isVerified = verified;
     }
 
-    public String getVerificationToken() {
-        return verificationToken;
-    }
-
-    public void setVerificationToken(String verificationToken) {
-        this.verificationToken = verificationToken;
-    }
 }

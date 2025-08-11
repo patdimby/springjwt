@@ -3,7 +3,9 @@ package com.dimbisoapatrick.springjwt.controller;
 import com.dimbisoapatrick.springjwt.entity.User;
 import com.dimbisoapatrick.springjwt.repository.UserRepository;
 import com.dimbisoapatrick.springjwt.service.EmailService;
-import com.dimbisoapatrick.springjwt.utils.JwtTokenUtil;
+import com.dimbisoapatrick.springjwt.util.JwtTokenUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/req")
+@AllArgsConstructor
+@Tag(name = "registration")
 public class RegistrationController {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
 
     @PostMapping(value = "/signup", consumes = "application/json")
     public ResponseEntity<String> createUser(@RequestBody User user) {

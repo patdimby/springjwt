@@ -1,4 +1,4 @@
-package com.dimbisoapatrick.springjwt.utils;
+package com.dimbisoapatrick.springjwt.util;
 
 import java.util.Date;
 

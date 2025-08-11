@@ -1,0 +1,55 @@
+<html xmlns:th="https://thymeleaf.org">
+	<head>
+		<title>Expense Manager - Expenses</title>
+	</head>
+	<link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+	<body>
+		<h1>List of Expenses</h1>
+		<hr/>
+		<div>
+			<h2>You are viewing the expenses totalling of
+			<span th:text="'&#8377;'+${totalExpenses}"></span>
+			</h2>
+		</div>
+		<form method="get" th:object="${filter}" th:action="@{/filterExpenses}">
+			Search by Keyword:
+			<input type="text" placeholder="Enter keyword" th:field="*{keyword}"/>
+			<select th:field="*{sortBy}">
+				<option value="date">Date</option>
+				<option value="amount">Amount</option>
+			</select>
+			<input type="text" id="startDate" placeholder="Start date" th:field="*{startDate}" />
+			<input type="text" id="endDate" placeholder="End date" th:field="*{endDate}" />
+			<input type="submit" value="Submit" />
+		</form>
+		<div>
+			<a th:href="@{/createExpense}">Create Expense</a>
+		</div>
+		<table border="1">
+			<thead>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Actions</th>
+			</thead>
+			<tbody>
+				<tr th:each="expense: ${expenses}">
+					<td th:text="${expense.name}"></td>
+					<td th:text="${expense.description}"></td>
+					<td th:text="${expense.amount}"></td>
+					<td th:text="${expense.dateString}"></td>
+					<td>
+						<a th:href="@{/deleteExpense(id=${expense.expenseId})}"
+						onclick="return confirm('Are you sure want to delete the expense?');">Delete</a>
+						|
+						<a th:href="@{/updateExpense(id=${expense.expenseId})}">Update</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script th:src="@{/js/jquery.js}"></script>
+		<script th:src="@{/js/jquery-ui.js}"></script>
+		<script th:src="@{/js/expenses-list.js}"></script>
+	</body>
+</html>
