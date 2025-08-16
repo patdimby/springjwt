@@ -15,7 +15,13 @@
         <p>Thanks for Registering your account. Now you can start adding your expenses!</p>
     </div>
     <div>
-        <form>
+        <form id="loginForm" th:action="@{/login}" method="post">
+            <div th:if="${param.error}">
+                Invalid username or password
+            </div>
+            <div th:if="${param.logout}">
+                You have been logged out from the application
+            </div>
             <input type="text" name="email" placeholder="Enter email"/>
             <br/><br/>
             <input type="password" name="password" placeholder="Enter password"/>
@@ -23,6 +29,9 @@
             <button type="submit">Login</button>
         </form>
     </div>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/jquery-validator.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
 </body>
 </html>
 

@@ -8,6 +8,9 @@
 <body>
     <h1>Create New Expense</h1>
     <hr/>
+    <div>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
     <form th:action="@{/saveOrUpdateExpense}" th:object="${expense}" method="post" id="expenseform">
         <input type="text" placeholder="Enter expense name" th:field="*{name}"/>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>

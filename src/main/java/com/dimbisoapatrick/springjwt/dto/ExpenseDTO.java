@@ -7,10 +7,9 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ExpenseDTO {
 	
 	private Long id;

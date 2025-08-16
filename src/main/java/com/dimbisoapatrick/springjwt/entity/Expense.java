@@ -1,20 +1,18 @@
 package com.dimbisoapatrick.springjwt.entity;
 
 import lombok.*;
-import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "tbl_expenses")
 @Data
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Expense {
 	
 	@Id
@@ -32,7 +30,8 @@ public class Expense {
 
 	@Column(name="amount")
 	private BigDecimal amount;
-	
+
+	@Column(name="local_date")
 	private Date date;
 
 }
