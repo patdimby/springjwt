@@ -1,69 +1,27 @@
 package com.dimbisoapatrick.springjwt.config;
-
-import com.dimbisoapatrick.springjwt.service.CustomUserDetailsService;
 import com.dimbisoapatrick.springjwt.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig {
-
-
-    private final UserService userService;
-
-    private final CustomUserDetailsService customUserDetailsService;
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return userService;
+    @Bean public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    @Bean public AuthenticationProvider authenticationProvider(UserService userService) {
+        var provider = new DaoAuthenticationProvider(userService);
+        provider.setPasswordEncoder(passwordEncoder()); return provider;
     }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+    @Bean public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Browser sessions need CSRF protection; only the public JSON signup is exempt.
+        return http.csrf(csrf -> csrf.ignoringRequestMatchers("/req/signup"))
+            .authorizeHttpRequests(auth -> auth.requestMatchers("/req/login", "/req/register", "/req/signup", "/req/signup/verify", "/req/js/**", "/req/css/**").permitAll().anyRequest().authenticated())
+            .formLogin(form -> form.loginPage("/req/login").loginProcessingUrl("/login").defaultSuccessUrl("/req/expenses", true).permitAll())
+            .logout(logout -> logout.logoutSuccessUrl("/req/login?logout")).build();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-
-                .formLogin(httpForm -> {
-                    httpForm.loginPage("/req/login").permitAll();
-                    httpForm.defaultSuccessUrl("/req/index");
-
-                })
-
-                .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/req/**").permitAll();
-                    registry.anyRequest().authenticated();
-                })
-                .build();
-    }
-
-
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService);
-    }
-
 }

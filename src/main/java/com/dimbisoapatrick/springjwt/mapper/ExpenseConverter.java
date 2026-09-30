@@ -18,6 +18,7 @@ public class ExpenseConverter {
     public Expense convertDtoToModel(ExpenseDTO expenseDto) {
         Expense expense = new Expense();
         expense.setId(expenseDto.getId());
+        expense.setExpenseId(expenseDto.getExpenseId());
 		expense.setName(expenseDto.getName());
 		expense.setDescription(expenseDto.getDescription());
 		expense.setAmount(expenseDto.getAmount());
@@ -28,6 +29,7 @@ public class ExpenseConverter {
     public ExpenseDTO convertModelToDTO(Expense expense) {
         ExpenseDTO expenseDto = new ExpenseDTO();
         expenseDto.setId(expense.getId());
+        expenseDto.setExpenseId(expense.getExpenseId());
         expenseDto.setName(expense.getName());
         expenseDto.setDescription(expense.getDescription());
         expenseDto.setAmount(expense.getAmount());

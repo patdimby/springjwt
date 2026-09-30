@@ -13,9 +13,7 @@ public class ExpenseValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ExpenseDTO expenseDTO = (ExpenseDTO) target;
-        if (expenseDTO.getDateString().equals("")
-                || expenseDTO.getDateString().isEmpty()
-                || expenseDTO.getDateString() == null) {
+        if (expenseDTO.getDateString() == null || expenseDTO.getDateString().isBlank()) {
             errors.rejectValue("dateString",
                     null,
                     "Expense date should not be null");

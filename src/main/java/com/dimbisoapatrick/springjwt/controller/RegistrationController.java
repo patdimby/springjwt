@@ -31,7 +31,7 @@ public class RegistrationController {
     private final EmailService emailService;
 
     @PostMapping(value = "/signup", consumes = "application/json")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@jakarta.validation.Valid @RequestBody User user) {
 
         User existingAppUser = userRepository.findByEmail(user.getEmail());
 
@@ -47,6 +47,11 @@ public class RegistrationController {
                 return new ResponseEntity<>("Verification Email resent. Check your inbox", HttpStatus.OK);
             }
         }
+        // Ignore account identity and verification state supplied by a public caller.
+        user.setId(null);
+        user.setVerified(false);
+        user.setResetToken(null);
+        user.setUserId(java.util.UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         String verificationToken = JwtTokenUtil.generateToken(user.getEmail());
         user.setVerificationToken(verificationToken);

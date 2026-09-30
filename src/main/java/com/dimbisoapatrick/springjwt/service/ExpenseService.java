@@ -84,10 +84,10 @@ public class ExpenseService {
     }
 
     public List<ExpenseDTO> getFilteredExpenses(ExpenseFilterDTO expenseFilterDTO) throws ParseException {
-        String keyword = expenseFilterDTO.getKeyword();
-        String sortBy = expenseFilterDTO.getSortBy();
-        String startDateString = expenseFilterDTO.getStartDate();
-        String endDateString = expenseFilterDTO.getEndDate();
+        String keyword = expenseFilterDTO.getKeyword() == null ? "" : expenseFilterDTO.getKeyword();
+        String sortBy = expenseFilterDTO.getSortBy() == null ? "date" : expenseFilterDTO.getSortBy();
+        String startDateString = expenseFilterDTO.getStartDate() == null ? "" : expenseFilterDTO.getStartDate();
+        String endDateString = expenseFilterDTO.getEndDate() == null ? "" : expenseFilterDTO.getEndDate();
 
         Date startDate = !startDateString.isEmpty() ? DateTimeUtil.convertStringToDate(startDateString) : new Date(0);
         Date endDate = !endDateString.isEmpty() ? DateTimeUtil.convertStringToDate(endDateString) : new Date(System.currentTimeMillis());
@@ -105,12 +105,9 @@ public class ExpenseService {
     }
 
     public String totalExpenses(List<ExpenseDTO> expenses) {
-        BigDecimal sum = new BigDecimal(0);
-        BigDecimal total = expenses.stream().map(x -> x.getAmount().add(sum))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale.Builder()
-                .setLanguage("en").setRegion("US").setVariant("POSIX").build());
-        return format.format(total).substring(2);
+        // Return a currency-neutral numeric total; the view owns the currency symbol.
+        return expenses.stream().map(ExpenseDTO::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)
+            .setScale(2, java.math.RoundingMode.HALF_UP).toPlainString();
     }
 }
 

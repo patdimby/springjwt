@@ -27,6 +27,6 @@ public class ExpenseFilterController {
         model.addAttribute("expenses", list);
         String totalExpenses = expenseService.totalExpenses(list);
         model.addAttribute("totalExpenses", totalExpenses);
-        return "expenses-list";
+        return "req/expenses-list";
     }
 }

@@ -23,6 +23,7 @@ public class UserDTO {
     @NotBlank(message = "User name should not be null")
     private String username;
 
+    @NotBlank(message = "Email is required")
     @Email(message = "Invalid email address")
     private String email;
 

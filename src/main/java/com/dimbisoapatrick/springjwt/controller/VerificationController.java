@@ -27,7 +27,11 @@ public class VerificationController {
      
     @GetMapping("/signup/verify")
     public ResponseEntity verifyEmail(@RequestParam("token") String token) {
-        String emailString = jwtUtil.extractEmail(token);
+        String emailString;
+        try { emailString = jwtUtil.extractEmail(token); }
+        catch (io.jsonwebtoken.JwtException | IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid or expired token");
+        }
         User user = userRepository.findByEmail(emailString);
         if (user == null || user.getVerificationToken() == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token Expired!");

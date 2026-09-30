@@ -13,7 +13,8 @@ public class DateTimeUtil {
 
 	public static Date convertStringToDate(String dateString) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		java.util.Date utilDate = sdf.parse(dateString);
+		sdf.setLenient(false); // Reject impossible calendar dates instead of normalizing them.
+        java.util.Date utilDate = sdf.parse(dateString);
 		return new Date(utilDate.getTime());
 	}
 }

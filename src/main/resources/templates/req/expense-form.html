@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Expense</title>
-    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}" />
+    <link rel="stylesheet" th:href="@{/req/css/jquery-ui.css}" />
 </head>
 <body>
     <h1>Create New Expense</h1>
@@ -11,7 +11,7 @@
     <div>
         <a th:href="@{/logout}">Logout</a>
     </div>
-    <form th:action="@{/saveOrUpdateExpense}" th:object="${expense}" method="post" id="expenseform">
+    <form th:action="@{/req/saveOrUpdateExpense}" th:object="${expense}" method="post" id="expenseform">
         <input type="text" placeholder="Enter expense name" th:field="*{name}"/>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         <br/><br/>
@@ -32,11 +32,11 @@
         <input type="hidden" th:field="*{expenseId}"/>
     </form>
     <div>
-        <a th:href="@{/expenses}">Back to Expenses</a>
+        <a th:href="@{/req/expenses}">Back to Expenses</a>
     </div>
-    <script th:src="@{/js/jquery.js}"></script>
-    <script th:src="@{/js/jquery-ui.js}"></script>
-    <script th:src="@{/js/jquery-validator.js}"></script>
-    <script th:src="@{/js/expense-form.js}"></script>
+    <script th:src="@{/req/js/jquery.js}"></script>
+    <script th:src="@{/req/js/jquery-ui.js}"></script>
+    <script th:src="@{/req/js/jquery-validator.js}"></script>
+    <script th:src="@{/req/js/expense-form.js}"></script>
 </body>
 </html>

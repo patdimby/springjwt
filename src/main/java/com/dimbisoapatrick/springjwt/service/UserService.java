@@ -27,6 +27,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserConverter userconverter;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -35,7 +38,7 @@ public class UserService implements UserDetailsService {
             var userObj = user.get();
             return org.springframework.security.core.userdetails.User.builder()
                     .username(userObj.getUsername())
-                    .password(userObj.getPassword())
+                    .password(userObj.getPassword()).authorities("ROLE_USER")
                     .build();
         } else {
             throw new UsernameNotFoundException(username);
@@ -44,6 +47,12 @@ public class UserService implements UserDetailsService {
 
     public void save(UserDTO userDTO) {
         User user = mapToEntity(userDTO);
+        // DTO credentials are plaintext inputs, never the stored password representation.
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setId(null);
+        user.setVerified(false);
+        user.setResetToken(null);
+        user.setVerificationToken(null);
         user.setUserId(UUID.randomUUID().toString());
         userRepository.save(user);
     }

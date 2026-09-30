@@ -17,7 +17,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;    
 
     @Column(name = "name")
@@ -25,14 +24,17 @@ public class User {
     private String username;
 
     @Column(name = "email")
+    @Email @NotBlank
     private String email;
 
     @Column(name = "password")
+    @NotBlank
     private String password;
 	
 	@Column(name = "reset_token")
     private String resetToken;
 
+    @Column(length = 1024)
     private String verificationToken;
 
 	private boolean isVerified;

@@ -36,7 +36,6 @@ public class AuthController {
     public String register(@Valid @ModelAttribute("user") UserDTO userDTO,
                            BindingResult result,
                            Model model) {
-        System.out.println("Printing the user details:"+userDTO);
         if (result.hasErrors()) {
             return "req/register";
         }

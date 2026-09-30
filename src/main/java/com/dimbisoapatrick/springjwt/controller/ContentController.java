@@ -8,19 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/req")
 public class ContentController {
 
-    @GetMapping("/login")
-    public String login() {
-        return "req/login";
-    }
-
     @GetMapping("/signup")
     public String signup() {
-        return "req/register";
+        return "redirect:/req/register";
     }
 
     @GetMapping("/index")
     public String home() {
-        return "req/expenses-list";
+        return "redirect:/req/expenses";
     }
 
 }

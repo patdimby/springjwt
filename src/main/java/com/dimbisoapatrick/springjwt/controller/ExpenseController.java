@@ -40,21 +40,18 @@ public class ExpenseController {
 
 	@PostMapping("/saveOrUpdateExpense")
 	public String saveOrUpdateExpenseDetails(@ModelAttribute("expense") ExpenseDTO expneseDTO) throws ParseException {
-		System.out.println("Printing the Expense DTO: "+expneseDTO);
 		expenseService.saveExpenseDetails(expneseDTO);
-		return "redirect:/expenses";
+		return "redirect:/req/expenses";
 	}
 
-	@GetMapping("/deleteExpense")
+	@PostMapping("/deleteExpense")
 	public String deleteExpense(@RequestParam String id) {
-		System.out.println("Printing the expense Id:"+id);
 		expenseService.deleteExpense(id);
-		return "redirect:/expenses";
+		return "redirect:/req/expenses";
 	}
 
 	@GetMapping("/updateExpense")
 	public String updateExpense(@RequestParam String id, Model model) {
-		System.out.println("Printing the expense Id inside update method:"+id);
 		ExpenseDTO expense = expenseService.getExpenseById(id);
 		model.addAttribute("expense", expense);
 		return "req/expense-form";
